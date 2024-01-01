@@ -1,0 +1,30 @@
+server:
+  port: 8080
+  error:
+    include-stacktrace: never
+spring:
+  jpa:
+    properties:
+      hibernate:
+        use_sql_comments: 'true'
+        format_sql: 'true'
+        show_sql: 'true'
+    hibernate:
+      ddl-auto: update
+  datasource:
+    username: postgres
+    password: ${PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/shop_it?useSSL=false&createDatabaseIfNotExist=true
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor: warn
+        sql: warn
+      nodeValue: WARN
+    blog: WARN
+
+#schedulers:
+#  cron: "*/10 * * * * *"
