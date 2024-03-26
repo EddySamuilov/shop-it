@@ -5,11 +5,6 @@ plugins {
 }
 
 group = 'shopIT'
-version = '0.0.1-SNAPSHOT'
-
-java {
-	sourceCompatibility = '21'
-}
 
 configurations {
 	compileOnly {
@@ -39,9 +34,11 @@ dependencies {
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
-	testImplementation 'org.codehaus.groovy:groovy-all:3.0.18'
-	testImplementation 'org.spockframework:spock-junit4'
-	testImplementation 'org.spockframework:spock-spring'
+	// TODO: Configure groovy (spock) for service level tests
+//	testImplementation 'org.codehaus.groovy:groovy-all'
+//	testImplementation 'org.spockframework:spock-junit4'
+//	testImplementation 'org.spockframework:spock-spring'
+//	testImplementation 'org.spockframework:spock-core'
 }
 
 tasks.named('test') {
