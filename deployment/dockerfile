@@ -1,0 +1,6 @@
+FROM amazoncorretto:21.0.1
+
+# Copy the file in build->libs and rename it to app.jar
+COPY build/libs/shopIT.jar app.jar
+# When it started run the java, -jar and /app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
