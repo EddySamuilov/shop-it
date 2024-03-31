@@ -15,7 +15,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/shop_it?useSSL=false&createDatabaseIfNotExist=true
     username: postgres
-    password: ${PASSWORD}
+    password: 1234 # Hardcoding the password to support testing simplicity
     driver-class-name: org.postgresql.Driver
 logging:
   level:
@@ -26,6 +26,7 @@ logging:
         sql: warn
       nodeValue: WARN
     blog: WARN
+
 
 #schedulers:
 #  cron: "*/10 * * * * *"
