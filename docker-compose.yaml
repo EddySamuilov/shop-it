@@ -15,7 +15,7 @@ services:
 
   backend:
     build:
-      dockerfile: deployment/Dockerfile # We could either type "Dockerfile" or "." right after the build. The . will search for Dockerfile in the same directory
+      dockerfile: Dockerfile # We could either type "Dockerfile" or "." right after the build. The . will search for Dockerfile in the same directory
     container_name: shopit_container
     ports:
       - "8089:8089"
