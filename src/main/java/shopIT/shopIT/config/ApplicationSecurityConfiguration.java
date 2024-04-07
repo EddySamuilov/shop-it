@@ -18,7 +18,7 @@ public class ApplicationSecurityConfiguration {
 //      .requestMatchers("/", "/users/login", "/users/register").permitAll()
 //      .requestMatchers("/statistics").hasAnyRole(Role.ADMIN.name())
 //      .requestMatchers("/**").authenticated()
-    )
+    ).csrf().disable()
     .formLogin(loginConfig -> loginConfig
       .loginPage("/users/login")
       .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
