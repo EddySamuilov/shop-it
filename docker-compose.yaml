@@ -3,7 +3,7 @@ services:
   db:
     image: postgres:16.2
     ports:
-      - "5433:5432"
+      - "5432:5432"
     environment:
       POSTGRES_DB: shop_it
       POSTGRES_USER: admin2
