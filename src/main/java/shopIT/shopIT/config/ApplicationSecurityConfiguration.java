@@ -14,7 +14,7 @@ public class ApplicationSecurityConfiguration {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests((auth) -> auth
       .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-      .requestMatchers("/**").permitAll() // TODO: This line grants access to all resources in the APP for testing simplicity. REMOVE IN FUTURE
+      .requestMatchers("/**").permitAll() // TODO: This line grants access to all resources in the APP for testing simplicity. TO BE REMOVED IN FUTURE
 //      .requestMatchers("/", "/users/login", "/users/register").permitAll()
 //      .requestMatchers("/statistics").hasAnyRole(Role.ADMIN.name())
 //      .requestMatchers("/**").authenticated()
