@@ -1,3 +1,9 @@
+FROM ubuntu:latest AS build
+RUN apt-get update
+RUN apt-get install amazoncorretto:21.0.1 -y
+COPY . .
+RUN ./gradlew bootJar --no-daemon
+
 # Set the base image. Linux installation. If version is not specified it uses the latest
 FROM amazoncorretto:21.0.1
 MAINTAINER Eddy
