@@ -1,21 +1,21 @@
 server:
-  port: 8080
+  port: 8089
   error:
     include-stacktrace: never
 spring:
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         use_sql_comments: 'true'
         format_sql: 'true'
         show_sql: 'true'
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:5432/shop_it?useSSL=false&createDatabaseIfNotExist=true
-    username: postgres
-    password: 1234 # Hardcoding the password to support testing simplicity
+    url: ${db-url:jdbc:postgresql://localhost:5432/shop_it?useSSL=false&createDatabaseIfNotExist=true}
+    username: ${db-username:postgres}
+    password: ${db-password:1234} #Hardcoding the password to support testing simplicity
     driver-class-name: org.postgresql.Driver
 logging:
   level:

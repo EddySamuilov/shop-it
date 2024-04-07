@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:16.2
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: shop_it
+      POSTGRES_USER: admin2
+      POSTGRES_PASSWORD: admin2
+    volumes: # needed to keep the info in the DB after we stop the container
+      - C:/postgres_container_data:/var/lib/postgresql/data
+    restart: always  # if the container is not created on a first attempt try again and again and again
+    container_name: postgresql_container
+
+  backend:
+    build: . # We could either type "Dockerfile" or "." right after the build. The . will search for Dockerfile in the same directory
+    container_name: shopit_container
+    ports:
+      - "8089:8089"
+    environment:
+      db-url: jdbc:postgresql://db:5432/shop_it
+      db-username: admin2
+      db-password: admin2
+    depends_on:
+      - db
+    restart: always
