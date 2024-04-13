@@ -6,6 +6,8 @@ import org.mapstruct.ReportingPolicy;
 import shopIT.shopIT.dtos.ProductCreateDTO;
 import shopIT.shopIT.models.Product;
 
+import java.time.LocalDateTime;
+
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 
 public interface ProductEntityMapper {
@@ -14,4 +16,11 @@ public interface ProductEntityMapper {
   @Mapping(target = "created", ignore = true)
   @Mapping(target = "modified", ignore = true)
   Product toEntity(ProductCreateDTO source);
+
+  default Product mapDTOToEntity(ProductCreateDTO productCreateDTO) {
+    Product product = toEntity(productCreateDTO);
+    product.setCreated(LocalDateTime.now());
+    product.setModified(LocalDateTime.now());
+    return product;
+  }
 }
