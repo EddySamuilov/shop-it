@@ -32,7 +32,7 @@ public class ProductResource {
     return ResponseEntity.ok(product);
   }
 
-  @GetMapping("/search")
+  @GetMapping
   public ResponseEntity<List<ProductSearchResponseDTO>> getAll() {
     List<ProductSearchResponseDTO> products = productService.getAll();
     return ResponseEntity.ok(products);
