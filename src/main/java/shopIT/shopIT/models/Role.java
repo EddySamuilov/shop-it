@@ -6,15 +6,15 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import shopIT.shopIT.enums.Role;
+import shopIT.shopIT.enums.RoleName;
 
 @Data
 @Entity
 @Table(name = "roles")
 @NoArgsConstructor
-public class UserRole extends BaseEntity {
+public class Role extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
-  private Role role;
+  private RoleName roleName;
 
 }

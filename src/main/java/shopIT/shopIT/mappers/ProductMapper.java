@@ -1,16 +1,16 @@
 package shopIT.shopIT.mappers;
 
-import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.MappingTarget;
 import shopIT.shopIT.dtos.ProductCreateDTO;
+import shopIT.shopIT.dtos.ProductSearchResponseDTO;
 import shopIT.shopIT.models.Product;
 
 import java.time.LocalDateTime;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
+public interface ProductMapper {
 
-public interface ProductEntityMapper {
+  ProductSearchResponseDTO toDTO(Product product);
 
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "created", ignore = true)
@@ -22,5 +22,10 @@ public interface ProductEntityMapper {
     product.setCreated(LocalDateTime.now());
     product.setModified(LocalDateTime.now());
     return product;
+  }
+
+  default Product updateEntityFromDTO(ProductCreateDTO dto, @MappingTarget Product entity) {
+    entity.setModified(LocalDateTime.now());
+    return entity;
   }
 }

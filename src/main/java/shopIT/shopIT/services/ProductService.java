@@ -8,8 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shopIT.shopIT.dtos.ProductCreateDTO;
 import shopIT.shopIT.dtos.ProductSearchResponseDTO;
 import shopIT.shopIT.exceptions.ProductNotFoundException;
-import shopIT.shopIT.mappers.ProductDTOMapper;
-import shopIT.shopIT.mappers.ProductEntityMapper;
+import shopIT.shopIT.mappers.ProductMapper;
 import shopIT.shopIT.models.Product;
 import shopIT.shopIT.repositories.ProductRepository;
 
@@ -25,13 +24,12 @@ public class ProductService {
   private static final String PRODUCT_NOT_FOUND = "Product not found!";
 
   private final ProductRepository productRepository;
-  private final ProductDTOMapper productDTOMapper;
-  private final ProductEntityMapper productEntityMapper;
+  private final ProductMapper productMapper;
 
   @Transactional(readOnly = true)
   public ProductSearchResponseDTO findById(String id) {
     return productRepository.findById(Long.valueOf(id))
-        .map(productDTOMapper::toDTO)
+        .map(productMapper::toDTO)
         .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND));
   }
 
@@ -39,11 +37,11 @@ public class ProductService {
   public List<ProductSearchResponseDTO> getAll() {
     return productRepository.findAll()
         .stream()
-        .map(productDTOMapper::toDTO)
+        .map(productMapper::toDTO)
         .toList();
   }
 
   public Product create(ProductCreateDTO productCreateDTO) {
-    return productRepository.save(productEntityMapper.toEntity(productCreateDTO));
+    return productRepository.save(productMapper.toEntity(productCreateDTO));
   }
 }
