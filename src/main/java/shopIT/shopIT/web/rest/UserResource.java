@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import shopIT.shopIT.dtos.UserProfileDTO;
 import shopIT.shopIT.dtos.UserRegisterDTO;
@@ -19,7 +21,7 @@ import shopIT.shopIT.services.UserService;
 import java.security.Principal;
 
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserResource {
@@ -28,21 +30,21 @@ public class UserResource {
 
     private final UserService userService;
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @PostMapping("/login-error")
-    public String login(
-        @ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username,
-        RedirectAttributes redirectAttributes
-    ) {
-        redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, username);
-        redirectAttributes.addFlashAttribute("bad_credentials", true);
-
-        return "redirect:/users/login";
-    }
+//    @GetMapping("/login")
+//    public String login() {
+//        return "login";
+//    }
+//
+//    @PostMapping("/login-error")
+//    public String login(
+//        @ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username,
+//        RedirectAttributes redirectAttributes
+//    ) {
+//        redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, username);
+//        redirectAttributes.addFlashAttribute("bad_credentials", true);
+//
+//        return "redirect:/users/login";
+//    }
 
     @GetMapping("/register")
     public String register() {
@@ -51,18 +53,17 @@ public class UserResource {
 
     @PostMapping("/register")
     public String register(
-        @Valid UserRegisterDTO userRegisterDTO,
+        @Valid @RequestBody UserRegisterDTO userRegisterDTO,
         BindingResult bindingResult,
         RedirectAttributes redirectAttributes
     ) {
-
-        if (bindingResult.hasErrors() || !userRegisterDTO.getPassword().equals(userRegisterDTO.getConfirmPassword())) {
-            redirectAttributes
-                .addFlashAttribute("userRegisterDTO", userRegisterDTO)
-                .addFlashAttribute(BINDING_RESULT_PATH + "userRegisterDTO", bindingResult);
-
-            return "redirect:/users/register";
-        }
+//        if (bindingResult.hasErrors() || !userRegisterDTO.getPassword().equals(userRegisterDTO.getConfirmPassword())) {
+//            redirectAttributes
+//                .addFlashAttribute("userRegisterDTO", userRegisterDTO)
+//                .addFlashAttribute(BINDING_RESULT_PATH + "userRegisterDTO", bindingResult);
+//
+//            return "redirect:/users/register";
+//        }
 
         userService.register(userRegisterDTO);
 

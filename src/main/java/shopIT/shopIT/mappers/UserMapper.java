@@ -20,7 +20,6 @@ public interface UserMapper {
     @Mapping(target = "imageURL", ignore = true)
     @Mapping(target = "created", ignore = true)
     @Mapping(target = "modified", ignore = true)
-    @Mapping(target = "posts", ignore = true)
     User toEntity(UserRegisterDTO source);
 
     @AfterMapping

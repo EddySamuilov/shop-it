@@ -13,10 +13,9 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-
-    url: ${db-url:jdbc:postgresql://dpg-cod3jmol5elc73fgk480-a.frankfurt-postgres.render.com/shop_it?useSSL=false&createDatabaseIfNotExist=true}
-    username: ${db-username:admin2}
-    password: ${db-password:iyXGeH74NroPHz7jWcHpHyl4ySMACgv8} #Hardcoding the password to support testing simplicity
+    url: ${db-url:jdbc:postgresql://localhost:5432/shop_it?useSSL=false&createDatabaseIfNotExist=true}
+    username: ${db-username:postgres}
+    password: ${db-password:1234} #Hardcoding the password to support testing simplicity
     driver-class-name: org.postgresql.Driver
 logging:
   level:
@@ -28,6 +27,9 @@ logging:
       nodeValue: WARN
     blog: WARN
 
+rsa:
+  private-key: "classpath:certs/private.pem"
+  public-key: "classpath:certs/public.pem"
 
 #schedulers:
 #  cron: "*/10 * * * * *"
