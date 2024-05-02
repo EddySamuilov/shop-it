@@ -3,6 +3,13 @@ server:
   error:
     include-stacktrace: never
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id:
+            client-secret:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
@@ -20,12 +27,14 @@ spring:
 logging:
   level:
     org:
+      springframework:
+        security: TRACE
       hibernate:
         type:
-          descriptor: warn
-        sql: warn
-      nodeValue: WARN
-    blog: WARN
+          descriptor: TRACE
+        sql: TRACE
+      nodeValue: TRACE
+    blog: TRACE
 
 rsa:
   private-key: "classpath:certs/private.pem"

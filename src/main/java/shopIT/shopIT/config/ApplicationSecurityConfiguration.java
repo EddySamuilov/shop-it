@@ -10,20 +10,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -36,10 +34,11 @@ public class ApplicationSecurityConfiguration {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http.authorizeHttpRequests((auth) -> auth
-      .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+            .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 //      .requestMatchers("/**").permitAll() // TODO: This line grants access to all resources in the APP for testing simplicity. TO BE REMOVED IN FUTURE
-      .requestMatchers("/", "/users/login", "/users/register").permitAll()
-      .requestMatchers("/**").authenticated())
+            .requestMatchers("/", "/users/login", "/users/register").permitAll()
+            .requestMatchers("/**").authenticated())
+        .formLogin(withDefaults())
 //    .formLogin(loginConfig -> loginConfig
 //      .loginPage("/users/login")
 //      .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
@@ -51,11 +50,12 @@ public class ApplicationSecurityConfiguration {
 //      .logoutSuccessUrl("/")
 //      .invalidateHttpSession(true)
 //      .deleteCookies("JSESSIONID"))
-    .httpBasic(Customizer.withDefaults())
-    .csrf(AbstractHttpConfigurer::disable) // CSRF disabled
-    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-    .oauth2ResourceServer(oAuth2ResourceServerConfigurer -> oAuth2ResourceServerConfigurer.jwt(Customizer.withDefaults()))
-    .build();
+        .oauth2Login(withDefaults()) // TODO: This is related to login with google/github/etc
+//    .httpBasic(withDefaults())
+//    .csrf(AbstractHttpConfigurer::disable) // CSRF disabled
+//    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//    .oauth2ResourceServer(oAuth2ResourceServerConfigurer -> oAuth2ResourceServerConfigurer.jwt(withDefaults()))
+        .build();
   }
 
   @Bean
