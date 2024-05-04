@@ -11,7 +11,7 @@ import shopIT.shopIT.enums.ProductType;
 
 @Data
 @NoArgsConstructor
-public class ProductCreateDTO {
+public class ProductUpsertDTO {
 
   @NotBlank(message = "The title must not be blank!")
   private String title;

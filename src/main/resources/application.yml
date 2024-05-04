@@ -22,7 +22,7 @@ spring:
   datasource:
     url: ${db-url:jdbc:postgresql://localhost:5432/shop_it?useSSL=false&createDatabaseIfNotExist=true}
     username: ${db-username:postgres}
-    password: ${db-password:1234} #Hardcoding the password to support testing simplicity
+    password: ${db-password:1234} # Hardcoding the password to support testing simplicity
     driver-class-name: org.postgresql.Driver
 logging:
   level:
@@ -39,6 +39,11 @@ logging:
 rsa:
   private-key: "classpath:certs/private.pem"
   public-key: "classpath:certs/public.pem"
+
+# Overriding the openAPI url
+springdoc:
+  api-docs:
+    path: /api-docs
 
 #schedulers:
 #  cron: "*/10 * * * * *"
