@@ -1,3 +1,7 @@
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
+import java.util.regex.Pattern
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.1'
@@ -23,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'jakarta.validation:jakarta.validation-api'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+	implementation 'org.flywaydb:flyway-core:10.13.0'
 
 //	implementation 'org.springframework.kafka:spring-kafka'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
@@ -43,6 +48,7 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly 'org.flywaydb:flyway-database-postgresql:10.13.0'
 
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
@@ -62,3 +68,38 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+def migrationExclusions = [/* migration names exclusions */]
+
+task validateFlywayMigrations {
+	def migrationPattern = "^V\\d{4}\\.\\d{2}\\.\\d{2}\\.\\d{2}\\.\\d{2}__[a-z_]+\\.sql\$"
+	def datePattern = Pattern.compile("\\d{4}\\.\\d{2}\\.\\d{2}")
+
+	doLast {
+		for (def file in fileTree('src/main/resources/db/migration')) {
+			final String migrationName = file.getName()
+			if (!file.isFile() || migrationExclusions.contains(migrationName)) {
+				continue
+			}
+			if (!migrationName.matches(migrationPattern)) {
+				throw new GradleException("Migration '$migrationName' does not match pattern '$migrationPattern'")
+			}
+			def matcher = datePattern.matcher(migrationName)
+			if (matcher.find()) {
+				def date = matcher.group()
+				try {
+					LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy.MM.dd"))
+				} catch (DateTimeParseException e) {
+					throw new GradleException(
+							"Migration '$migrationName' has invalid date value. Couldn't be parsed with pattern 'yyyy.MM.dd'",
+							e
+					)
+				}
+			} else {
+				throw new GradleException("Migration '$migrationName' has no date by pattern '$datePattern'")
+			}
+		}
+	}
+}
+
+compileJava.dependsOn validateFlywayMigrations

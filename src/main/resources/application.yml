@@ -2,7 +2,10 @@ server:
   port: 8089
   error:
     include-stacktrace: never
+
 spring:
+  flyway:
+    baselineOnMigrate: true
   security:
     oauth2:
       client:
@@ -18,12 +21,19 @@ spring:
         format_sql: 'true'
         show_sql: 'true'
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
   datasource:
     url: ${db-url:jdbc:postgresql://localhost:5432/shop_it?useSSL=false&createDatabaseIfNotExist=true}
     username: ${db-username:postgres}
     password: ${db-password:1234} # Hardcoding the password to support testing simplicity
     driver-class-name: org.postgresql.Driver
+
+flyway:
+  url: jdbc:postgresql://localhost:5432
+  schemas: shop_it
+  user: postgres
+  password: 1234
+
 logging:
   level:
     org:
